@@ -9,9 +9,10 @@ namespace workshop2
         static int Main(string[] args)
         {
             Members members = new Members();
-            members.Load();
+            FileHandler fileHandler = new FileHandler();
+            members.AddMultipleMembers(fileHandler.LoadMemberList());
             ViewHandler viewHandler = new ViewHandler(members);
-            viewHandler.Options();
+            viewHandler.StartView();
             return 0;
         }
     }

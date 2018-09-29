@@ -3,27 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace workshop2 {
+    [Serializable]
     class Boat {
-        private Member Owner;
-        private int Length;
+        private int _length;
         public BoatType BoatType {get;}
 
-        public Boat (Member owner, int length, BoatType boatType) 
+        public int Length {get;}
+        public Boat (int length, BoatType boatType) 
         {
             // add checks? criteras?
-            Owner = owner;
-            Length = length;
+            _length = length;
             BoatType = boatType;
-        }
-        public void GetInfo() 
-        {
-            //create code.
-        }
-        public void Delete() {
-            //create code.
-        }
-        public void Edit() {
-            //create code.
         }
 
         override public string ToString() {
