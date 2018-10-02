@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace workshop2 {
 
-    class Members {
+    class MembersIndex {
         
         private List<Member> _members;
         
-        public Members () {
+        public MembersIndex () {
             _members = new List<Member>();
         } 
 
