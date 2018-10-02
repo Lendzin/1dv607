@@ -16,7 +16,13 @@ namespace workshop2 {
         public int Length
         {
             get { return _length; }
-            set { _length = value; }
+            set {   if (value > 0 && value < 999) {
+                 _length = value;
+            } else {
+                    throw new ArgumentOutOfRangeException();
+                }
+                
+            }
         }
         public Boat (int length, BoatType boatType) 
         {

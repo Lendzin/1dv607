@@ -19,12 +19,26 @@ namespace workshop2 {
         public int PersonalNr
         {
             get { return _personalNr; }
-            set { _personalNr = value; }
+            set 
+            {   if (value > 0 && value < 9999) {
+                 _personalNr = value;
+            } else {
+                    throw new ArgumentOutOfRangeException();
+                }
+                
+            }
         }
         public string Name
         {
             get { return _name; }
-            set { _name = value; }
+            set {
+                int other;
+                if (!string.IsNullOrWhiteSpace(value) && !int.TryParse(value, out other)) {
+                    _name = value;
+                } else {
+                    throw new System.FormatException("Name is in the wrong format, too short, or nonexistant.");
+                }
+            }
         }
 
         public List<Boat> BoatsOwned
