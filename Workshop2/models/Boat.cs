@@ -16,7 +16,7 @@ namespace workshop2 {
         public int Length
         {
             get { return _length; }
-            set {   if (value > 0 && value < 999) {
+            set {   if (value > 0 && value <= 999) {
                  _length = value;
             } else {
                     throw new ArgumentOutOfRangeException();

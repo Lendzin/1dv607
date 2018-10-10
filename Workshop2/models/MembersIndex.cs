@@ -49,5 +49,22 @@ namespace workshop2 {
             }
             return usableID;
         }
+
+        
+        public bool FaultyPersonalNumberCheck(int personalNr)
+        {
+            foreach(Member member in this.GetList())
+            {
+                if (personalNr == member.PersonalNr)
+                {
+                    return true;
+                }
+            }
+            if (personalNr < 0 || personalNr > 99999)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -16,6 +16,27 @@ namespace workshop2
             }
         }
 
+        public int GetValueFromUser(int options) {
+                int value;
+                ConsoleKeyInfo input = Console.ReadKey(true);
+                if (char.IsDigit(input.KeyChar))
+                    {
+                        Int32.TryParse(input.KeyChar.ToString(), out value);
+                        return value;
+                    } else {
+                        return options;
+                    }
+        }
+        
+        public void ShowSectionText(string action) {
+            ChangeColorRedAddLine();
+            Console.WriteLine($"# {action} Boat Section #");
+            Console.WriteLine($"To {action} boat is a permanent action!");
+            ResetColorAddLine();
+            Console.WriteLine($"Choose boat to {action} from the list, or type 0 to exit, then ENTER.");
+            Console.WriteLine();
+        }
+
         public void ChangeColorBlueAddLine()
         {
             Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -62,22 +83,6 @@ namespace workshop2
              "Motor Sailer",
              "Other" });
         }
-        public BoatType RetrieveBoatType(int value) {
-                    if (value == 1) {
-                        return BoatType.Canoe;
-                    }
-                    if (value == 2) {
-                        return BoatType.Kayak;
-                    }
-                    if (value == 3) {
-                        return BoatType.Sailboat;
-                    }
-                    if (value == 4) {
-                        return BoatType.Motorsailer;
-                    }
-                    return BoatType.Other;
-        }
-
         public int RetrieveBoatLength() {
             int length = -1;
             do

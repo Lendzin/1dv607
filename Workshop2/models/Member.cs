@@ -53,7 +53,7 @@ namespace workshop2 {
         }
 
         public void changePersonalNr(int number) {
-            if (number > 0 && number < 9999) {
+            if (number > 0 && number <= 9999) {
                 _personalNr = number;
             } else {
                 throw new ArgumentOutOfRangeException();
@@ -65,6 +65,21 @@ namespace workshop2 {
         }
         public void DeRegisterBoat(Boat boat) {
             _boatsOwned.Remove(boat);
+        }
+
+        public bool FaultyNameCheck(string name)
+        {
+            int value;
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return true;
+            }
+            if (int.TryParse(name, out value)) 
+            {
+                return true;
+            }
+            return false;
+            
         }
     }
 }

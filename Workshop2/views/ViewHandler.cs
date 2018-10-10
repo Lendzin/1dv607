@@ -9,6 +9,7 @@ namespace workshop2
     {
 
         private MembersIndex _members;
+        private MemberRenderer _memberRenderer = new MemberRenderer();
 
         private HelpFunctions hf = new HelpFunctions();
 
@@ -41,47 +42,31 @@ namespace workshop2
                 Console.WriteLine("Welcome to the members and boat listings, choose an OPTION:");
                 hf.ResetColorAddLine();
                 hf.printOptions(options);
-                ConsoleKeyInfo input = Console.ReadKey(true);
-                if (char.IsDigit(input.KeyChar))
-                {
-                    Int32.TryParse(input.KeyChar.ToString(), out value);
-                    } else {
-                        value = options.Count;
-                    }
-
+                value = hf.GetValueFromUser(options.Count);
+                Console.Clear();
                 if (value == 1)
                 {
-                    Console.Clear();
-                    ShowListCompactView();
-                    hf.Pause();
+                    _memberRenderer.ShowListCompactView(Members);
                 }
-
                 if (value == 2)
                 {
-                    Console.Clear();
-                    ShowListVerboseView();
-                    hf.Pause();
+                    _memberRenderer.ShowListVerboseView(Members);
                 }
-
                 if (value == 3)
                 {
-                    Console.Clear();
                     ShowAddMemberView();
                 }
                 if (value == 4)
                 {
-                    Console.Clear();
-                    ShowDeleteMemberView();
+                    this.DoAction("DELETE");
                 }
                 if (value == 5)
                 {
-                    Console.Clear();
-                    ShowMemberView();
+                    this.DoAction("VIEW");
                 }
                 if (value == 6)
                 {
-                    Console.Clear();
-                    ShowEditMemberView();
+                    this.DoAction("EDIT");
                 }
             } while (value != 0);
             hf.ChangeColorRedAddLine();
@@ -89,47 +74,7 @@ namespace workshop2
             hf.ResetColorAddLine();
         }
 
-        public void ShowListCompactView()  
-        {
-            hf.ChangeColorGreenAddLine();
-            Console.WriteLine("Member's info: COMPACT:");
-            hf.ResetColorAddLine();
-            if (Members.GetCount() != 0) {
-                Console.WriteLine("{0, -10} {1,15} {2,20}\n", "Member", "MemberID", "No. of Boats");
-                foreach (Member member in Members.GetList()) {
-                    Console.WriteLine("{0, -10} {1,8} {2,16}\n", member.Name, member.MemberId, member.CountBoats());
-                }
-            } else {
-                Console.WriteLine("No members in the list.");
-            }
-        }
-        public void ShowListVerboseView()
-        {
-            hf.ChangeColorGreenAddLine();
-            Console.WriteLine("Members info: VERBOSE:");
-            hf.ResetColorAddLine();
-            if (Members.GetCount() != 0)
-            {
-                foreach (Member member in Members.GetList())
-                {
-                Console.WriteLine("--------------- Member Info ---------------------------------------------------------------------------------");
-                Console.WriteLine();
-                Console.WriteLine("{0, -10} {1,15} {2,20} {3,25}\n", "Member", "PersonalNR", "MemberID", "No. of Boats");
-                Console.WriteLine("{0, -10} {1,10} {2,22} {3,21}\n", member.Name, member.PersonalNr, member.MemberId, member.CountBoats());
-                    if (member.CountBoats() != 0)
-                    {
-                        Console.WriteLine("--------------- Boats owned by member -----------------------------------------------------------------------");
-                        Console.WriteLine();
-                        foreach(Boat boat in member.GetBoats()) {
-                            Console.WriteLine("{0, 0} {1,0} {2,10} {3,0}\n", "Type: ", boat.BoatType, "Length: ", boat.Length);
-                        }
-                    }
-                }
-            } else {
-                Console.WriteLine("No members in the list.");
-            }
-        }
-        public void ShowAddMemberView() 
+        private void ShowAddMemberView() 
         {
             Member member = new Member("",0, Members.GetUsableID());
             hf.ChangeColorBlueAddLine();
@@ -156,20 +101,6 @@ namespace workshop2
                 hf.ResetColorAddLine();
             }
         }
-        public void ShowDeleteMemberView()
-        {
-            this.DoAction("DELETE");
-        }
-        public void ShowMemberView()
-        {
-            this.DoAction("VIEW");
-        }
-        public void ShowEditMemberView()
-        {
-            this.DoAction("EDIT");
-        }
-
-       
         private void DoAction(string action)
         {
                int locationInList = 0;
@@ -195,17 +126,11 @@ namespace workshop2
 
                         hf.printOptions(options);
                     
-                        if (Int32.TryParse(Console.ReadLine(), out locationInList))
-                        {
-                            
-                        }
-                        else
-                        {
+                        if (!Int32.TryParse(Console.ReadLine(), out locationInList)) {
                             locationInList = options.Count;
                         }
                         Console.WriteLine();
-                    
-                        
+                                            
                         if (locationInList > 0 && locationInList < options.Count)
                         {
                             Member member = Members.GetMemberInList(locationInList-1);
@@ -223,7 +148,7 @@ namespace workshop2
                             }
                             if (action == "VIEW")
                             {
-                                this.ShowMemberDetails(member);
+                                _memberRenderer.ShowMemberDetails(member);
                             
                             }
                             if (action == "EDIT")
@@ -260,13 +185,7 @@ namespace workshop2
              
             Console.WriteLine($"Type a number for the information to edit, or 0 to go back.");
             hf.printOptions(options);
-            ConsoleKeyInfo input = Console.ReadKey(true);
-            if (char.IsDigit(input.KeyChar))
-                    {
-                        Int32.TryParse(input.KeyChar.ToString(), out value);
-                    } else {
-                        value = options.Count;
-                    }
+            value = hf.GetValueFromUser(options.Count);
                     if (value > 0 && value < options.Count)
                     {
                         if (value == 1) {
@@ -291,23 +210,10 @@ namespace workshop2
                     Console.WriteLine("Write Member Name here (Can't start with number, or be blank):");
                     name = Console.ReadLine();
                     Console.WriteLine();
-                } while (FaultyNameCheck(name));
+                } while (member.FaultyNameCheck(name));
             member.changeName(name);
         }
-        private bool FaultyNameCheck(string name)
-        {
-            int value;
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return true;
-            }
-            if (int.TryParse(name, out value)) 
-            {
-                return true;
-            }
-            return false;
-            
-        }
+
         private void AddPersonalNumber(Member member)
         {
             int personalNr = -1;
@@ -316,29 +222,14 @@ namespace workshop2
                 Console.WriteLine("Write your Personal Number here(Must be unique, 1-99999):");
                 Int32.TryParse(Console.ReadLine(), out personalNr);
                 Console.WriteLine();
-            } while (FaultyPersonalNumberCheck(personalNr));
+            } while (Members.FaultyPersonalNumberCheck(personalNr));
             member.changePersonalNr(personalNr);
         }
 
-        private bool FaultyPersonalNumberCheck(int personalNr)
-        {
-            foreach(Member member in Members.GetList())
-            {
-                if (personalNr == member.PersonalNr)
-                {
-                    return true;
-                }
-            }
-            if (personalNr < 0 || personalNr > 99999)
-            {
-                return true;
-            }
-            return false;
-        }
         private void AddDeleteEditBoats(Member member)
         {
             int value = 0;
-            int options = 4;
+            int options = 2;
             do 
             {
                 hf.ChangeColorBlueAddLine();
@@ -349,16 +240,11 @@ namespace workshop2
                 Console.WriteLine("1. Add Boat");
                 if (member.CountBoats() != 0)
                 {
+                    options = 4;
                     Console.WriteLine("2. Delete Boat");
                     Console.WriteLine("3. Edit Boat");
                 }
-                ConsoleKeyInfo input = Console.ReadKey(true);
-                if (char.IsDigit(input.KeyChar))
-                    {
-                        Int32.TryParse(input.KeyChar.ToString(), out value);
-                    } else {
-                        value = options;
-                    }
+                value = hf.GetValueFromUser(options);
                 if (value == 1)
                 {
                     AddBoat(member);
@@ -386,16 +272,8 @@ namespace workshop2
             BoatType boatType = BoatType.Other;
             do {
                 hf.printOptions(options);
-                ConsoleKeyInfo input = Console.ReadKey(true);
-                if (char.IsDigit(input.KeyChar))
-                {
-                    Int32.TryParse(input.KeyChar.ToString(), out value);
-                }
-                else
-                {
-                    value =  options.Count;
-                }
-                    boatType = hf.RetrieveBoatType(value);
+                value = hf.GetValueFromUser(options.Count);
+                    boatType = RetrieveBoatType(value);
             } while (value > options.Count);
             if (value != 0)
             {
@@ -405,26 +283,37 @@ namespace workshop2
             } 
 
         }
+        private BoatType RetrieveBoatType(int value) {
+                    if (value == 1) {
+                        return BoatType.Canoe;
+                    }
+                    if (value == 2) {
+                        return BoatType.Kayak;
+                    }
+                    if (value == 3) {
+                        return BoatType.Sailboat;
+                    }
+                    if (value == 4) {
+                        return BoatType.Motorsailer;
+                    }
+                    return BoatType.Other;
+        }
 
         private void EditBoats(Member member)
         { 
         List<string> options = CreateBoatOptions(member);
         int value = options.Count;
         do {
-            ShowSectionText("EDIT");
+            hf.ShowSectionText("EDIT");
             hf.printOptions(options);
-            if (Int32.TryParse(Console.ReadLine(), out value))
-            {
+            if (!Int32.TryParse(Console.ReadLine(), out value)) {
+                value = options.Count;
             }
-                else
-                    {
-                        value = options.Count;
-                    }
-                    Console.WriteLine();
-                if (value != 0 && value != options.Count) {
-                    EditChosenBoat(member.BoatsOwned[value-1]);
-                    value = 0;
-                }
+            Console.WriteLine();
+            if (value != 0 && value != options.Count) {
+                EditChosenBoat(member.BoatsOwned[value-1]);
+                value = 0;
+            }
 
             } while (member.BoatsOwned.Count !=0 && value != 0);
         }
@@ -444,13 +333,7 @@ namespace workshop2
              
             Console.WriteLine($"Type a number for the information to edit, or 0 to go back.");
             hf.printOptions(options);
-            ConsoleKeyInfo input = Console.ReadKey(true);
-            if (char.IsDigit(input.KeyChar))
-                    {
-                        Int32.TryParse(input.KeyChar.ToString(), out value);
-                    } else {
-                        value = options.Count;
-                    }
+            value = hf.GetValueFromUser(options.Count);
                     if (value > 0 && value < options.Count) {
                         if (value == 1) {
                             EditBoatType(boat);
@@ -473,15 +356,9 @@ namespace workshop2
             int value;
             do {
                 hf.printOptions(options);
-                ConsoleKeyInfo input = Console.ReadKey(true);
-                if (char.IsDigit(input.KeyChar))
-                {
-                    Int32.TryParse(input.KeyChar.ToString(), out value);
-                    } else {
-                        value =  options.Count;
-                    }
+                value = hf.GetValueFromUser(options.Count);
             } while (value > options.Count);
-            boat.BoatType = (hf.RetrieveBoatType(value));
+            boat.BoatType = (RetrieveBoatType(value));
         }
         private void EditBoatLength(Boat boat) {
             hf.ChangeColorBlueAddLine();
@@ -491,14 +368,6 @@ namespace workshop2
             boat.Length = length;
         }
 
-        private void ShowSectionText(string action) {
-            hf.ChangeColorRedAddLine();
-            Console.WriteLine($"# {action} Boat Section #");
-            Console.WriteLine($"To {action} boat is a permanent action!");
-            hf.ResetColorAddLine();
-            Console.WriteLine($"Choose boat to {action} from the list, or type 0 to exit, then ENTER.");
-            Console.WriteLine();
-        }
 
         private List<string> CreateBoatOptions(Member member)
         {
@@ -514,45 +383,24 @@ namespace workshop2
         int value = options.Count;
         do {
             hf.ChangeColorRedAddLine();
-            ShowSectionText("DELETE");
+            hf.ShowSectionText("DELETE");
             hf.printOptions(options);
-            if (Int32.TryParse(Console.ReadLine(), out value))
+            if (!Int32.TryParse(Console.ReadLine(), out value))
             {
-            }   else
-                    {
-                        value = options.Count;
-                    }
-                    Console.WriteLine();
-                if (value != 0 && value != options.Count)
-                {
-                    member.DeRegisterBoat(member.BoatsOwned[value-1]);
-                    hf.ChangeColorRedAddLine();
-                    Console.WriteLine($"# Boat at: {value} # Deleted!");
-                    hf.ResetColorAddLine();
-                    value = 0;
-                }
+                value = options.Count;
+            }
+            Console.WriteLine();
+            if (value != 0 && value != options.Count)
+            {
+                member.DeRegisterBoat(member.BoatsOwned[value-1]);
+                hf.ChangeColorRedAddLine();
+                Console.WriteLine($"# Boat at: {value} # Deleted!");
+                hf.ResetColorAddLine();
+                value = 0;
+            }
 
             } while (member.BoatsOwned.Count !=0 && value != 0);
 
-        }
-        
-
-        private void ShowMemberDetails(Member member)
-        {
-            hf.ChangeColorBlueAddLine();
-            Console.WriteLine($":: MEMBER ID #{member.MemberId} ::");
-            hf.ResetColorAddLine();
-            Console.WriteLine($"Name: {member.Name}");
-            Console.WriteLine($"Personal Number: {member.PersonalNr}");
-            hf.ChangeColorBlueAddLine();
-            Console.WriteLine($":: OWNED BOATS #{member.BoatsOwned.Count} ::");
-            hf.ResetColorAddLine();
-            foreach (Boat boat in member.BoatsOwned)
-            {
-                Console.WriteLine($"Boat Length:{boat.Length}");
-                Console.WriteLine($"Boat Type:{boat.BoatType}");
-            }
-            hf.ResetColorAddLine();
         }
 
     }
