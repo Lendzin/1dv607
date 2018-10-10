@@ -178,32 +178,32 @@ namespace workshop2
                     List<string> options = new List<string>(new string[] {"to CANCEL."});
                     locationInList = options.Count;
                     if (this.Members.GetCount() != 0) {
+                        foreach (Member member in Members.GetList())
+                        {
+                            options.Add($"Name: {member.Name}  MemberID: {member.MemberId}");
+                        }
+                        hf.ChangeColorBlueAddLine();
+                        Console.WriteLine($"# {action} Member Section #");
 
-                    foreach (Member member in Members.GetList())
-                    {
-                        options.Add($"Name: {member.Name}  MemberID: {member.MemberId}");
-                    }
-                    hf.ChangeColorBlueAddLine();
-                    Console.WriteLine($"# {action} Member Section #");
-                    if (action == "DELETE")
-                    {
-                        hf.ChangeColorRedAddLine();
-                        Console.WriteLine("Deleting a Member is a permanent action!");
-                    }
-                    hf.ResetColorAddLine();
-                    Console.WriteLine($"Perform {action} on user by typing the number, or 0 to Cancel.");
+                        if (action == "DELETE")
+                        {
+                            hf.ChangeColorRedAddLine();
+                            Console.WriteLine("Deleting a Member is a permanent action!");
+                        }
+                        hf.ResetColorAddLine();
+                        Console.WriteLine($"Perform {action} on user by typing the number, or 0 to Cancel.");
 
-                    hf.printOptions(options);
+                        hf.printOptions(options);
                     
-                    if (Int32.TryParse(Console.ReadLine(), out locationInList))
-                    {
-                        
-                    }
-                    else
-                    {
-                        locationInList = options.Count;
-                    }
-                    Console.WriteLine();
+                        if (Int32.TryParse(Console.ReadLine(), out locationInList))
+                        {
+                            
+                        }
+                        else
+                        {
+                            locationInList = options.Count;
+                        }
+                        Console.WriteLine();
                     
                         
                         if (locationInList > 0 && locationInList < options.Count)
@@ -292,7 +292,7 @@ namespace workshop2
                     name = Console.ReadLine();
                     Console.WriteLine();
                 } while (FaultyNameCheck(name));
-            member.Name = name;
+            member.changeName(name);
         }
         private bool FaultyNameCheck(string name)
         {
@@ -317,7 +317,7 @@ namespace workshop2
                 Int32.TryParse(Console.ReadLine(), out personalNr);
                 Console.WriteLine();
             } while (FaultyPersonalNumberCheck(personalNr));
-            member.PersonalNr = personalNr;
+            member.changePersonalNr(personalNr);
         }
 
         private bool FaultyPersonalNumberCheck(int personalNr)

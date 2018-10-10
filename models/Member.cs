@@ -19,26 +19,10 @@ namespace workshop2 {
         public int PersonalNr
         {
             get { return _personalNr; }
-            set 
-            {   if (value > 0 && value < 9999) {
-                 _personalNr = value;
-            } else {
-                    throw new ArgumentOutOfRangeException();
-                }
-                
-            }
         }
         public string Name
         {
             get { return _name; }
-            set {
-                int other;
-                if (!string.IsNullOrWhiteSpace(value) && !int.TryParse(value, out other)) {
-                    _name = value;
-                } else {
-                    throw new System.FormatException("Name is in the wrong format, too short, or nonexistant.");
-                }
-            }
         }
 
         public List<Boat> BoatsOwned
@@ -58,6 +42,22 @@ namespace workshop2 {
 
         public List<Boat> GetBoats() {
             return _boatsOwned;
+        }
+        public void changeName(string name) {
+            int other;
+            if (!string.IsNullOrWhiteSpace(name) && !int.TryParse(name, out other)) {
+                _name = name;
+            } else {
+                throw new System.FormatException();
+            }
+        }
+
+        public void changePersonalNr(int number) {
+            if (number > 0 && number < 9999) {
+                _personalNr = number;
+            } else {
+                throw new ArgumentOutOfRangeException();
+            }
         }
 
         public void RegisterBoat(Boat boat) {
