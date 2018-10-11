@@ -194,7 +194,7 @@ namespace workshop2
             string name = "";
             do
                 {   
-                    Console.WriteLine("Write Member Name here (Can't start with number, or be blank):");
+                    Console.WriteLine("Write Member Name here (First Name Only, 2-12 letters. Can't start with number, or be blank):");
                     name = Console.ReadLine();
                     Console.WriteLine();
                 } while (member.FaultyNameCheck(name));
@@ -202,8 +202,7 @@ namespace workshop2
                 member.changeName(name);
             } catch (FormatException) {
                 Console.WriteLine();
-                Console.WriteLine("The name seems to be outside the scope..");
-                AddMemberName(member);
+                Console.WriteLine("Error while adding members name");
                 Console.WriteLine();
             }
         }
@@ -213,7 +212,7 @@ namespace workshop2
             int personalNr = -1;
             do
             {   
-                Console.WriteLine("Write your Personal Number here(Must be unique, 1-99999):");
+                Console.WriteLine("Write your Personal Number here(Must be unique, 19000101-20180101):"); //would have to do alot more checking for real PN's.
                 Int32.TryParse(Console.ReadLine(), out personalNr);
                 Console.WriteLine();
             } while (Members.FaultyPersonalNumberCheck(personalNr));
@@ -221,8 +220,7 @@ namespace workshop2
                 member.changePersonalNr(personalNr);
             } catch (ArgumentOutOfRangeException) {
                 Console.WriteLine();
-                Console.WriteLine("The number seems to be outside the scope..");
-                AddMemberName(member);
+                Console.WriteLine("Error while adding personal number");
                 Console.WriteLine();
             }
             
@@ -367,7 +365,13 @@ namespace workshop2
             Console.WriteLine($"# Editing Boat # Length: {boat.Length} #");
             hf.ResetColorAddLine();
             int length = hf.RetrieveBoatLength();
-            boat.Length = length;
+            try {
+                boat.Length = length;   
+            } catch (ArgumentOutOfRangeException){
+                Console.WriteLine();
+                Console.WriteLine("Error while adding the length.");
+                Console.WriteLine();
+            }
         }
 
 

@@ -90,7 +90,7 @@ namespace workshop2
                 Console.WriteLine("Type in the boats length in meter (1-999):");
                 Int32.TryParse(Console.ReadLine(), out length);
                 Console.WriteLine();
-            } while (length < 0 || length > 999);
+            } while (length <= 0 && length < 999);
             return length;
         }
     }

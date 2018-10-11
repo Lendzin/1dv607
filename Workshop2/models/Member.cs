@@ -43,14 +43,16 @@ namespace workshop2 {
         public void changeName(string name) {
             int other;
             if (!string.IsNullOrWhiteSpace(name) && !int.TryParse(name, out other)) {
-                _name = name;
+                if (2 <= name.Count() && name.Count() <= 12) {
+                    _name = name;
+                }
             } else {
                 throw new System.FormatException();
             }
         }
 
         public void changePersonalNr(int number) {
-            if (number > 0 && number <= 9999) {
+            if (number > 19000101 && number <= 20180101) {
                 _personalNr = number;
             } else {
                 throw new ArgumentOutOfRangeException();
@@ -75,7 +77,10 @@ namespace workshop2 {
             {
                 return true;
             }
-            return false;
+            if (2 <= name.Count() && name.Count() <= 12) {
+                return false;
+            }
+            return true;
             
         }
     }

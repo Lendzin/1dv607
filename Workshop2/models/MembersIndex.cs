@@ -60,7 +60,7 @@ namespace workshop2 {
                     return true;
                 }
             }
-            if (personalNr < 0 || personalNr > 99999)
+            if (personalNr <= 19000101 || personalNr >= 20180101)
             {
                 return true;
             }

@@ -38,7 +38,7 @@ namespace workshop2 {
                 Console.WriteLine("--------------- Member Info ---------------------------------------------------------------------------------");
                 Console.WriteLine();
                 Console.WriteLine("{0, -10} {1,15} {2,20} {3,25}\n", "Member", "PersonalNR", "MemberID", "No. of Boats");
-                Console.WriteLine("{0, -10} {1,10} {2,22} {3,21}\n", member.Name, member.PersonalNr, member.MemberId, member.CountBoats());
+                Console.WriteLine("{0, -10} {1,13} {2,18} {3,22}\n", member.Name, member.PersonalNr, member.MemberId, member.CountBoats());
                     if (member.CountBoats() != 0)
                     {
                         Console.WriteLine("--------------- Boats owned by member -----------------------------------------------------------------------");
