@@ -9,7 +9,7 @@ namespace workshop2
     {
 
         private MembersIndex _members;
-        private MemberRenderer _memberRenderer = new MemberRenderer();
+        private MemberRenderer _memberRenderer;
 
         private HelpFunctions hf = new HelpFunctions();
 
@@ -20,14 +20,35 @@ namespace workshop2
                 return _members;
             }
         }
-        public ViewHandler(MembersIndex members)
+        public ViewHandler(MembersIndex members, MemberRenderer memberRenderer)
         {
-            this._members = members;
+            _members = members;
+            _memberRenderer = memberRenderer;
         }
-        public void StartView()
+
+        public void ShowListCompactView() {
+            _memberRenderer.RenderCompactView();
+        }
+        public void ShowListVerboseView() {
+            _memberRenderer.RenderVerboseView();
+        }
+
+        public void ShowDeleteView() {
+            DoAction("DELETE");
+        }
+        public void ShowViewMemberView() {
+            DoAction("VIEW");
+        }
+        public void ShowEditView() {
+            DoAction("EDIT");
+        }
+        public void PrintWelcome() {
+            Console.WriteLine("Welcome to the members and boat listings, choose an OPTION:");
+        }
+
+        public List<string> GetMainMenuOptions()
         {
-            int value;
-            List<string> options = new List<string>(new string[]
+            return new List<string>(new string[]
             {
              "To exit the application.",
              "Show list of members (COMPACT).",
@@ -35,46 +56,11 @@ namespace workshop2
              "Add a member to the list.",
              "Delete a member in the list.",
              "View a member in the list",
-             "Edit a member in the list." });
-            do
-            {        
-                hf.ChangeColorBlueAddLine();
-                Console.WriteLine("Welcome to the members and boat listings, choose an OPTION:");
-                hf.ResetColorAddLine();
-                hf.printOptions(options);
-                value = hf.GetValueFromUser(options.Count);
-                Console.Clear();
-                if (value == 1)
-                {
-                    _memberRenderer.ShowListCompactView(Members);
-                }
-                if (value == 2)
-                {
-                    _memberRenderer.ShowListVerboseView(Members);
-                }
-                if (value == 3)
-                {
-                    ShowAddMemberView();
-                }
-                if (value == 4)
-                {
-                    this.DoAction("DELETE");
-                }
-                if (value == 5)
-                {
-                    this.DoAction("VIEW");
-                }
-                if (value == 6)
-                {
-                    this.DoAction("EDIT");
-                }
-            } while (value != 0);
-            hf.ChangeColorRedAddLine();
-            Console.WriteLine("Application Terminated.");
-            hf.ResetColorAddLine();
+             "Edit a member in the list." 
+             });
         }
 
-        private void ShowAddMemberView() 
+        public void ShowAddMemberView() 
         {
             Member member = new Member("",0, Members.GetUsableID());
             hf.ChangeColorBlueAddLine();
@@ -101,6 +87,7 @@ namespace workshop2
                 hf.ResetColorAddLine();
             }
         }
+
         private void DoAction(string action)
         {
                int locationInList = 0;
@@ -148,7 +135,7 @@ namespace workshop2
                             }
                             if (action == "VIEW")
                             {
-                                _memberRenderer.ShowMemberDetails(member);
+                                _memberRenderer.RenderMemberDetails(member);
                             
                             }
                             if (action == "EDIT")

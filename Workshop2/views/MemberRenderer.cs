@@ -6,15 +6,19 @@ namespace workshop2 {
 
     class MemberRenderer {
         private HelpFunctions hf = new HelpFunctions();
+        private MembersIndex _members;
 
-        public void ShowListCompactView(MembersIndex members)  
+        public MemberRenderer(MembersIndex members) {
+            _members = members;
+        }
+        public void RenderCompactView()  
         {
             hf.ChangeColorGreenAddLine();
             Console.WriteLine("Member's info: COMPACT:");
             hf.ResetColorAddLine();
-            if (members.GetCount() != 0) {
+            if (_members.GetCount() != 0) {
                 Console.WriteLine("{0, -10} {1,15} {2,20}\n", "Member", "MemberID", "No. of Boats");
-                foreach (Member member in members.GetList()) {
+                foreach (Member member in _members.GetList()) {
                     Console.WriteLine("{0, -10} {1,8} {2,16}\n", member.Name, member.MemberId, member.CountBoats());
                 }
             } else {
@@ -22,14 +26,14 @@ namespace workshop2 {
             }
             hf.Pause();
         }
-        public void ShowListVerboseView(MembersIndex members)
+        public void RenderVerboseView()
         {
             hf.ChangeColorGreenAddLine();
             Console.WriteLine("Members info: VERBOSE:");
             hf.ResetColorAddLine();
-            if (members.GetCount() != 0)
+            if (_members.GetCount() != 0)
             {
-                foreach (Member member in members.GetList())
+                foreach (Member member in _members.GetList())
                 {
                 Console.WriteLine("--------------- Member Info ---------------------------------------------------------------------------------");
                 Console.WriteLine();
@@ -50,7 +54,7 @@ namespace workshop2 {
             hf.Pause();
         }
 
-        public void ShowMemberDetails(Member member)
+        public void RenderMemberDetails(Member member)
         {
             hf.ChangeColorBlueAddLine();
             Console.WriteLine($":: MEMBER ID #{member.MemberId} ::");
@@ -62,8 +66,8 @@ namespace workshop2 {
             hf.ResetColorAddLine();
             foreach (Boat boat in member.BoatsOwned)
             {
-                Console.WriteLine($"Boat Length:{boat.Length}");
-                Console.WriteLine($"Boat Type:{boat.BoatType}");
+                Console.WriteLine($"Boat-Length: {boat.Length}");
+                Console.WriteLine($"Boat-Type: {boat.BoatType}");
             }
             hf.ResetColorAddLine();
         }
