@@ -1,13 +1,13 @@
 namespace workshop2 {
 
-    class Controller {
+    class Initializer {
 
             private MembersIndex _members;
             private FileHandler _fileHandler;
             private ViewHandler _viewHandler;
             private MainMenuController _mainMenuController;
 
-            public Controller() {
+            public Initializer() {
                 _members = new MembersIndex();
                 _fileHandler = new FileHandler();
                 _members.AddMultipleMembers(_fileHandler.LoadMemberList());

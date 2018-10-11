@@ -198,7 +198,14 @@ namespace workshop2
                     name = Console.ReadLine();
                     Console.WriteLine();
                 } while (member.FaultyNameCheck(name));
-            member.changeName(name);
+            try {
+                member.changeName(name);
+            } catch (FormatException) {
+                Console.WriteLine();
+                Console.WriteLine("The name seems to be outside the scope..");
+                AddMemberName(member);
+                Console.WriteLine();
+            }
         }
 
         private void AddPersonalNumber(Member member)
@@ -210,7 +217,15 @@ namespace workshop2
                 Int32.TryParse(Console.ReadLine(), out personalNr);
                 Console.WriteLine();
             } while (Members.FaultyPersonalNumberCheck(personalNr));
-            member.changePersonalNr(personalNr);
+            try {
+                member.changePersonalNr(personalNr);
+            } catch (ArgumentOutOfRangeException) {
+                Console.WriteLine();
+                Console.WriteLine("The number seems to be outside the scope..");
+                AddMemberName(member);
+                Console.WriteLine();
+            }
+            
         }
 
         private void AddDeleteEditBoats(Member member)

@@ -40,9 +40,6 @@ namespace workshop2 {
             return _boatsOwned.Count;
         }
 
-        public List<Boat> GetBoats() {
-            return _boatsOwned;
-        }
         public void changeName(string name) {
             int other;
             if (!string.IsNullOrWhiteSpace(name) && !int.TryParse(name, out other)) {

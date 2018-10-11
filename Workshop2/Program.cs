@@ -9,8 +9,8 @@ namespace workshop2
     {
         static int Main(string[] args)
         {
-            Controller controller = new Controller();
-            controller.runProgram();
+            Initializer initializer = new Initializer();
+            initializer.runProgram();
             return 0;
         }
     }

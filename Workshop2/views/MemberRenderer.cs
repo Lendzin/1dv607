@@ -43,7 +43,7 @@ namespace workshop2 {
                     {
                         Console.WriteLine("--------------- Boats owned by member -----------------------------------------------------------------------");
                         Console.WriteLine();
-                        foreach(Boat boat in member.GetBoats()) {
+                        foreach(Boat boat in member.BoatsOwned) {
                             Console.WriteLine("{0, 0} {1,0} {2,10} {3,0}\n", "Type: ", boat.BoatType, "Length: ", boat.Length);
                         }
                     }
