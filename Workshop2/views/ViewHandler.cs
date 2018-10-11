@@ -20,10 +20,10 @@ namespace workshop2
                 return _members;
             }
         }
-        public ViewHandler(MembersIndex members, MemberRenderer memberRenderer)
+        public ViewHandler(MembersIndex members)
         {
             _members = members;
-            _memberRenderer = memberRenderer;
+            _memberRenderer = new MemberRenderer(_members);
         }
 
         public void ShowListCompactView() {
@@ -95,7 +95,7 @@ namespace workshop2
                 {   
                     List<string> options = new List<string>(new string[] {"to CANCEL."});
                     locationInList = options.Count;
-                    if (this.Members.GetCount() != 0) {
+                    if (Members.GetCount() != 0) {
                         foreach (Member member in Members.GetList())
                         {
                             options.Add($"Name: {member.Name}  MemberID: {member.MemberId}");
@@ -140,7 +140,7 @@ namespace workshop2
                             }
                             if (action == "EDIT")
                             {
-                                this.EditDetails(member);
+                                EditDetails(member);
                             }
                         
                         }
