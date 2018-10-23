@@ -32,6 +32,7 @@ namespace BlackJack.model
             return false;
         }
 
+
         public bool Hit(Player a_player)
         {
             if (m_deck != null && a_player.CalcScore() < g_maxScore && !IsGameOver())
@@ -41,6 +42,23 @@ namespace BlackJack.model
                 c.Show(true);
                 a_player.DealCard(c);
 
+                return true;
+            }
+            return false;
+        }
+
+        public bool Stand()
+        {
+            if (m_deck != null)
+            {
+                this.ShowHand();
+                while(m_hitRule.DoHit(this))
+                {
+                    m_hitRule.DoHit(this);
+                    Card card = m_deck.GetCard();
+                    card.Show(true);
+                    this.DealCard(card);
+                }
                 return true;
             }
             return false;
