@@ -33,7 +33,7 @@ namespace BlackJack.controller
                 a_game.Stand();
             }
 
-            return !Enum.IsDefined(typeof(model.MenuChoice), choice);
+            return choice != model.MenuChoice.Quit;
         }
     }
 }

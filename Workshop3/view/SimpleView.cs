@@ -15,9 +15,23 @@ namespace BlackJack.view
             System.Console.WriteLine("Type 'p' to Play, 'h' to Hit, 's' to Stand or 'q' to Quit\n");
         }
 
-        public int GetInput()
+        public model.MenuChoice GetMenuChoice()
         {
-            return System.Console.In.Read();
+            int choice = System.Console.In.Read();
+
+            if (choice == 'p') {
+                return model.MenuChoice.NewGame;
+            }
+            if (choice == 'h') {
+                return model.MenuChoice.Hit;
+            }
+            if (choice == 's') {
+                return model.MenuChoice.Stand;
+            }
+            if (choice == 'q') {
+                return model.MenuChoice.Quit;
+            }
+            return model.MenuChoice.Other;
         }
 
         public void DisplayCard(model.Card a_card)

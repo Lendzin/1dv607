@@ -14,9 +14,23 @@ namespace BlackJack.view
             System.Console.WriteLine("----------------------");
             System.Console.WriteLine("Skriv 'p' för att Spela, 'h' för nytt kort, 's' för att stanna 'q' för att avsluta\n");
         }
-        public int GetInput()
+        public model.MenuChoice GetMenuChoice()
         {
-            return System.Console.In.Read();
+            int choice = System.Console.In.Read();
+
+            if (choice == 'p') {
+                return model.MenuChoice.NewGame;
+            }
+            if (choice == 'h') {
+                return model.MenuChoice.Hit;
+            }
+            if (choice == 's') {
+                return model.MenuChoice.Stand;
+            }
+            if (choice == 'q') {
+                return model.MenuChoice.Quit;
+            }
+            return model.MenuChoice.Other;
         }
         public void DisplayCard(model.Card a_card)
         {

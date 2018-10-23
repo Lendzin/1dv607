@@ -6,7 +6,9 @@ namespace BlackJack.model
     { 
         NewGame,
         Stand,
-        Hit
+        Hit,
+        Quit,
+        Other
     }
 
 }
