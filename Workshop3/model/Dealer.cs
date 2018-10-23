@@ -74,7 +74,7 @@ namespace BlackJack.model
 
         public bool IsGameOver()
         {
-            if (m_deck != null && CalcScore() >= g_hitLimit m_hitRule.DoHit(this) != true)
+            if (m_deck != null && /*CalcScore() >= g_hitLimit*/ m_hitRule.DoHit(this) != true)
             {
                 return true;
             }
