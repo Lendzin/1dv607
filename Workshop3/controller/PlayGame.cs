@@ -18,23 +18,22 @@ namespace BlackJack.controller
             {
                 a_view.DisplayGameOver(a_game.IsDealerWinner());
             }
+            model.MenuChoice choice = a_view.GetMenuChoice();
 
-            int input = a_view.GetInput();
-
-            if (input == 'p')
+            if (choice == model.MenuChoice.NewGame)
             {
                 a_game.NewGame();
             }
-            else if (input == 'h')
+            else if (choice == model.MenuChoice.Hit)
             {
                 a_game.Hit();
             }
-            else if (input == 's')
+            else if (choice == model.MenuChoice.Stand)
             {
                 a_game.Stand();
             }
 
-            return input != 'q';
+            return !Enum.IsDefined(typeof(model.MenuChoice), choice);
         }
     }
 }
