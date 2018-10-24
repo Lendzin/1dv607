@@ -5,10 +5,12 @@ using System.Text;
 
 namespace BlackJack.controller
 {
-    class PlayGame
+    class PlayGame : model.ICardDealtObserver
     {
+
         public bool Play(model.Game a_game, view.IView a_view)
         {
+            a_game.AddSubscriberToPlayer(this);
             a_view.DisplayWelcomeMessage();
             
             a_view.DisplayDealerHand(a_game.GetDealerHand(), a_game.GetDealerScore());
@@ -34,6 +36,10 @@ namespace BlackJack.controller
             }
 
             return choice != model.MenuChoice.Quit;
+        }
+
+        public void CardDealt() {
+            Console.WriteLine("*pause*");
         }
     }
 }

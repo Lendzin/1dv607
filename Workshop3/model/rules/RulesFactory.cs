@@ -19,7 +19,7 @@ namespace BlackJack.model.rules
 
         public IWinStrategy GetWinRule()
         {
-            return new DealerLoseOnEvenWinStrategy();
+            return new BasicWinStrategy();
         }
     }
 }
