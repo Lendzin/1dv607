@@ -38,7 +38,12 @@ namespace BlackJack.controller
             return choice != model.MenuChoice.Quit;
         }
 
-        public void CardDealt() {
+        public void CardDealt(model.Player a_player, model.Card a_card)
+        {
+           string player = (a_player.isDealer()) ? "Dealer" : "Player";
+           string card = (a_card.GetColor() == model.Card.Color.Hidden) ? "Hidden Card" : $"{a_card.GetValue()} of {a_card.GetColor()}";
+
+            Console.WriteLine($"{player} draws a : {card}");
             Console.WriteLine("*pause*");
         }
     }

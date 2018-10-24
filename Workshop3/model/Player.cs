@@ -7,6 +7,7 @@ namespace BlackJack.model
 {
     class Player
     {
+        protected bool _isDealer = false;
         private ICardDealtObserver m_subscriber;
         private List<Card> m_hand = new List<Card>();
 
@@ -17,8 +18,8 @@ namespace BlackJack.model
         public void DealCard(Card a_card)
         {
             m_hand.Add(a_card);
-            m_subscriber.CardDealt();
-            System.Threading.Thread.Sleep(1000);
+            m_subscriber.CardDealt(this, a_card);
+            System.Threading.Thread.Sleep(2500);
         }
 
         public IEnumerable<Card> GetHand()
@@ -29,6 +30,10 @@ namespace BlackJack.model
         public void ClearHand()
         {
             m_hand.Clear();
+        }
+
+        public bool isDealer() {
+            return _isDealer;
         }
 
         public void ShowHand()
